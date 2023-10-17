@@ -8,8 +8,8 @@ intensions = {
     'positive': ['yes', 'yep', 'yeah', 'sure', 'ok', 'okay', 'fine', 'cool', 'understood', 'understand','great', 'awesome', 'fantastic', 'good', 'nice', 'sweet', 'yay'],
     'negative': ['no', 'nope', 'nah', 'not', 'hate', 'sad', 'bad', 'awful', 'terrible', 'never', 'dont', 'do not', 'dont know', 'do not know', 'dont understand', 'do not understand', 'dont get it', 'do not get it', 'dont know what you mean', 'do not know what you mean', 'dont know what you are saying', 'do not know what you are saying', 'dont know what you are talking about', 'do not know what you are talking about', 'dont know what you are talking', 'do not know what you are talking', 'dont know what you are talking about', 'do not know what you are talking about', 'dont know what you are talking', 'do not know what you are talking', 'dont know what you mean', 'do not know what you mean', 'dont know what you are saying', 'do not know what you are saying', 'dont know what you are talking about', 'do not know what you are talking about', 'dont know what you are talking', 'do not know what you are talking', 'dont know what you are talking about', 'do not know what you are talking about', 'dont know what you are talking', 'do not know what you are talking'],
     'thanks': ['thanks', 'thank you', 'thx', 'thnx', 'ty', 'thank you very much', 'thank you so much', 'thanks a lot', 'thanks a bunch', 'thanks a ton', 'thanks heaps', 'thanks loads', 'thanks loads'],
-    'queryForWhatChatBotCanDo': ['what can you do', 'what are you capable of', 'what are your capabilities', 'what are your features', 'what are your functions', 'what are your functions', 'what are your abilities', 'what are you'],
-    'Safety': ['can i go', 'should i go', 'is it safe', 'is it safe to go', 'is it safe to go outside', 'is it safe to go out', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now'],
+    'queryForWhatChatBotCanDo': ['can you help me', 'how can you help me', 'what are your functions', 'what are your capabilities', 'please help me'],
+    'Safety': ['can i go out', 'should i go out', 'is it safe out', 'is it safe to go out', 'is it safe to go outside', 'is it safe to go out', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now', 'is it safe to go out today', 'is it safe to go out tomorrow', 'is it safe to go out tonight', 'is it safe to go out this evening', 'is it safe to go out this morning', 'is it safe to go out this afternoon', 'is it safe to go out now'],
     'firstPerson':['i', 'me', 'my', 'mine', 'myself'],
     'secondPerson':['you', 'your', 'yours', 'yourself'],
     'thirdPerson':['he', 'she', 'it', 'him', 'her', 'his', 'hers', 'its', 'they', 'them', 'their', 'theirs', 'himself', 'herself', 'itself', 'themselves'],
@@ -56,6 +56,10 @@ while True:
             if word in bye:
                 flag.append('bye')
         flags.append(flag)
+        for intension in intensions:
+            if sentence in intensions[intension]:
+                flag.append(intension)
+                break
     responded = False
     for respond in flags:
         print ('chatbot: ', end='')
@@ -78,7 +82,7 @@ while True:
                 print(random.choice(responses['askForhealth']))              
             responded = True
         if 'Safety' in respond:
-            print(random.choice(responses['Safety']))
+            print(random.choice(responses['safety']))
             responded = True
         if 'positive' in respond and not 'question' in respond:
             print(random.choice(responses['positive']))
@@ -89,7 +93,7 @@ while True:
         if 'thanks' in respond:
             print(random.choice(responses['thanks']))
             responded = True
-        if 'whatAreYou' in respond:
+        if 'queryForWhatChatBotCanDo' in respond:
             print(random.choice(responses['whatAreYou']))
             responded = True
         if 'safety' in respond:

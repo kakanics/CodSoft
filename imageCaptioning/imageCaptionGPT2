@@ -1,0 +1,35 @@
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from PIL import Image
+import torchvision.transforms as transforms
+
+model_name = "gpt2"
+model = GPT2LMHeadModel.from_pretrained(model_name)
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+max_caption_length = 200
+
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+])
+
+image = Image.open('example.jpg')
+image = transform(image)
+
+image_text = "An image of a " + tokenizer.decode(tokenizer.encode("broken car in desert"))
+
+input_ids = tokenizer.encode(image_text, return_tensors="pt")
+attention_mask = torch.ones(input_ids.shape)
+
+with torch.no_grad():
+    output = model.generate(
+        input_ids,
+        attention_mask=attention_mask,
+        max_length=max_caption_length,
+        num_return_sequences=1,
+        no_repeat_ngram_size=2  # Set the no_repeat_ngram_size to prevent repetition.
+    )
+
+generated_caption = tokenizer.decode(output[0], skip_special_tokens=True)
+
+print(generated_caption)
