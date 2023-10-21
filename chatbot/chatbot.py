@@ -1,5 +1,6 @@
 import time
 import random
+import tkinter as tk
 
 greetings = ['hello', 'hi', 'hey!','hey']
 keywords = ['weather', 'time', 'date', 'day', 'temperature', 'rain', 'sun', 'cloud', 'clouds', 'cloudy', 'wind', 'windy', 'snow', 'snowy', 'rainy', 'sunny', 'hot', 'cold', 'warm', 'freezing', 'boiling', 'freezing', 'warm', 'boiling']
@@ -20,9 +21,9 @@ weathers = ['sunny', 'cloudy', 'rainy', 'windy', 'snowy', 'hot', 'cold', 'warm',
 responses = {
     'greetings': ['Hello! How may I help you', 'Hi!', 'Hey! How are you?'],
     'question': ['I am a chatbot. I can help you with weather and time related queries.'],
-    'whatAreYou': ['I am a chatbot. I can help you with weather and time related queries.'],
+    'queryForWhatChatBotCanDo': ['I am a chatbot. I can help you with weather and time related queries.'],
     'positive': ['Great!', 'Awesome!', 'Fantastic!', 'Good!', 'Nice!', 'Sweet!', 'Yay!'],
-    'negative': ['Oh no!', 'Oh dear!', 'Oh my!', 'Oh gosh!', 'Oh golly!', 'Oh wow!', 'Oh jeez!', 'sad to hear that'],
+    'negative': ['Oh no!', 'Oh dear!', 'Oh my!', 'Oh gosh!', 'Oh wow!', 'Oh jeez!', 'sad to hear that'],
     'thanks': ['You are welcome!', 'No problem!', 'No worries!', 'My pleasure!', 'Anytime!'],
     'safety': ['It is safe to go out.'],
     'time': ['The time is ' + time.strftime("%H:%M:%S")],
@@ -35,12 +36,18 @@ responses = {
     'bye': ['Bye!', 'Goodbye!', 'See you later!', "I'll miss you!", 'Have a nice day!', 'Pleasure talking to you!']
 }
 
-while True: 
-    UserInput = input('you: ')
-    UserInput = UserInput.lower()
+def send_message():
+    user_input = user_entry.get() 
+    user_entry.delete(0, tk.END)  
+    chat_log.config(state=tk.NORMAL)
+    chat_log.insert(tk.END, "You: " + user_input + "\n")
+    chat_log.config(state=tk.DISABLED)  
+    respond_to_user(user_input)
+
+def respond_to_user(user_input):
     flags = []
     exit = False
-    for sentence in UserInput.split(','):
+    for sentence in user_input.split(','):
         flag=[]
         for word in sentence.split(' '):
             if word in greetings:
@@ -61,62 +68,82 @@ while True:
                 flag.append(intension)
                 break
     responded = False
+    chatbot_response = "chatbot: "
     for respond in flags:
-        print ('chatbot: ', end='')
         if 'greetings' in respond:
-            print(random.choice(responses['greetings']))
+            chatbot_response+=random.choice(responses['greetings']) + "\n"
             responded = True
         if 'question' in respond:
             if 'whatAreYou' in respond:
-                print(random.choice(responses['whatAreYou']))
+                chatbot_response+=random.choice(responses['whatAreYou'])+ "\n"
             if 'weather' in respond:
-                print(random.choice(responses['weather']))
+                chatbot_response+=random.choice(responses['weather'])+ "\n"
             if 'time' in respond:
-                print(random.choice(responses['time']))
+                chatbot_response+=random.choice(responses['time'])+ "\n"
             if 'date' in respond:
-                print(random.choice(responses['date']))
+                chatbot_response+=random.choice(responses['date'])+ "\n"
             if 'day' in respond:
-                print(random.choice(responses['day']))
+                chatbot_response+=random.choice(responses['day'])+ "\n"
             if 'secondPerson' in respond:
-                print(random.choice(responses['answerAboutHealth']))              
-                print(random.choice(responses['askForhealth']))              
+                chatbot_response+=random.choice(responses['answerAboutHealth'])+ "\n"              
+                chatbot_response+=random.choice(responses['askForhealth'])           + "\n"   
             responded = True
         if 'Safety' in respond:
-            print(random.choice(responses['safety']))
+            chatbot_response+=random.choice(responses['safety'])+ "\n"
             responded = True
         if 'positive' in respond and not 'question' in respond:
-            print(random.choice(responses['positive']))
+            chatbot_response+=random.choice(responses['positive'])+ "\n"
             responded = True
         if 'negative' in respond and not 'question' in respond:
-            print(random.choice(responses['negative']))
+            chatbot_response+=random.choice(responses['negative'])+ "\n"
             responded = True
         if 'thanks' in respond:
-            print(random.choice(responses['thanks']))
-            responded = True
-        if 'queryForWhatChatBotCanDo' in respond:
-            print(random.choice(responses['whatAreYou']))
+            chatbot_response+=random.choice(responses['thanks'])+ "\n"
             responded = True
         if 'safety' in respond:
-            print(random.choice(responses['safety']))
+            chatbot_response+=random.choice(responses['safety'])+ "\n"
             responded = True
         if 'time' in respond:
-            print(random.choice(responses['time']))
+            chatbot_response+=random.choice(responses['time'])+ "\n"
             responded = True
         if 'date' in respond:
-            print(random.choice(responses['date']))
+            chatbot_response+=random.choice(responses['date'])+ "\n"
             responded = True
         if 'day' in respond:
-            print(random.choice(responses['day']))
+            chatbot_response+=random.choice(responses['day'])+ "\n"
             responded = True
         if 'bye' in respond:
-            print(random.choice(responses['bye']))
+            chatbot_response+=random.choice(responses['bye'])+ "\n"
             responded = True
             exit=True
         if 'askForhealth' in respond:
-            print(random.choice(responses['askForhealth']))
+            chatbot_response+=random.choice(responses['askForhealth'])+ "\n"
             responded = True
+        if 'queryForWhatChatBotCanDo' in respond:
+            chatbot_response="Chatbot: "+random.choice(responses['queryForWhatChatBotCanDo'])+ "\n"
+            break
+
     if responded == False:
-        print(random.choice(responses['randomResponse']))
+        chatbot_response+=random.choice(responses['randomResponse'])+ "\n"
         responded = True
     if exit:
-        break
+        root.destroy()
+    chat_log.config(state=tk.NORMAL)
+    chat_log.insert(tk.END, chatbot_response)
+    chat_log.config(state=tk.DISABLED)
+
+root = tk.Tk()
+root.title("Chatbot")
+
+chat_log = tk.Text(root, state=tk.DISABLED, wrap=tk.WORD)
+chat_log.pack()
+
+user_entry = tk.Entry(root)
+user_entry.pack()
+
+root.bind("<Return>", lambda x: send_message())
+
+send_button = tk.Button(root, text="Send", command=send_message)
+send_button.pack()
+
+root.mainloop()
