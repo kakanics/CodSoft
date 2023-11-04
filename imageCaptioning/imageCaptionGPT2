@@ -1,12 +1,7 @@
 from transformers import GPT2TokenizerFast, ViTImageProcessor, VisionEncoderDecoderModel
 from torchtext.data import get_tokenizer
-import requests
-import torch
-import numpy as np
 from PIL import Image
-import pickle
 import matplotlib.pyplot as plt
-import os
 
 model_raw = VisionEncoderDecoderModel.from_pretrained(
     "nlpconnect/vit-gpt2-image-captioning")
